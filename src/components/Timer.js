@@ -1,25 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-const Timer = ({ setTimeOut, questionNumber }) => {
-	const [timer, setTimer] = useState(30);
+const Timer = ({ setStop, questionNumber }) => {
+  const [timer, setTimer] = useState(30);
+  useEffect(() => {
+    if (timer === 0) return setStop(true);
+    const interval = setInterval(() => {
+      setTimer((previous) => previous - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [setStop, timer]);
 
-	useEffect(() => {
-		if (timer === 0) return setTimeOut(true);
-		const interval = setInterval(() => {
-			setTimer(prev => prev - 1);
-		}, 1000);
-
-		return () => clearInterval(interval);
-	}, [timer, setTimeOut]);
-
-	useEffect(() => {
-		if (timer === 0) {
-			setTimeOut(true);
-			return;
-		}
-		setTimer(30);
-	}, [questionNumber]);
-	return timer;
+  useEffect(() => {
+    setTimer(30);
+  }, [questionNumber]);
+  return <div className="timer">{timer}</div>;
 };
 
 export default Timer;

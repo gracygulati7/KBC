@@ -1,71 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+
 import useSound from 'use-sound';
-import play from '../sounds/play.mp3';
-import correct from '../sounds/correct.mp3';
-import wrong from '../sounds/wrong.mp3';
+import play from '../assets/play.mp3'
+import correct from '../assets/correct.mp3'
+import wrong from '../assets/wrong.mp3'
 
-const Quiz = ({ data, questionNumber, setQuestionNumber, setTimeOut }) => {
-	const [question, setQuestion] = useState(null);
-	const [selectedAnswer, setSelectedAnswer] = useState(null);
-	const [className, setClassName] = useState('answer');
-	const [letsPlay] = useSound(play);
-	const [correctAnswer] = useSound(correct);
-	const [wrongAnswer] = useSound(wrong);
+const Quiz = ({ data, setStop, questionNumber, setQuestionNumber }) => {
+  const [question, setQuestion] = useState(null);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [ansClassName, setAnsClassName] = useState("answer");
 
-	useEffect(() => {
-		setQuestion(data[questionNumber - 1]);
-	}, [data, questionNumber]);
 
-	useEffect(() => {
-		letsPlay();
-	}, [letsPlay]);
+  const [letsPlay] = useSound(play);
+  const [correctAns] = useSound(correct);
+  const [wrongAns] = useSound(wrong);
 
-	const delay = (duration, callBack) => {
-		setTimeout(() => {
-			callBack();
-		}, duration);
-	};
+  useEffect(() => {
+    letsPlay();
+  }, [letsPlay])
 
-	const handleClick = item => {
-		setSelectedAnswer(item);
-		setClassName('answer active');
-		delay(3000, () => {
-			setClassName(item.correct ? 'answer correct' : 'answer wrong');
-		});
+  const delay = (duration, callback) => {
+    setTimeout(() => {
+      callback();
+    }, duration);
+  };
 
-		delay(5000, () => {
-			if (item.correct) {
-				correctAnswer();
-				delay(1000, () => {
-					setQuestionNumber(prev => prev + 1);
-					setSelectedAnswer(null);
-				});
-			} else {
-				wrongAnswer();
-				delay(1000, () => {
-					setTimeOut(true);
-				});
-			}
-		});
-	};
+  const handleAnswer = (ans) => {
+    setSelectedAnswer(ans);
+    setAnsClassName("answer active");
 
-	return (
-		<div className="quiz">
-			<div className="question">{question?.question}</div>
-			<div className="answers">
-				{question?.answers.map(item => (
-					<div
-						className={
-							selectedAnswer === item ? className : 'answer'
-						}
-						onClick={() => !selectedAnswer && handleClick(item)}
-					>
-						{item.text}
-					</div>
-				))}
-			</div>
-		</div>
-	);
+    delay(3000, () =>
+      setAnsClassName(ans.correct ? "answer correct" : "answer wrong")
+    );
+
+    delay(4000, () => {
+      if (ans.correct) {
+        correctAns();
+        delay(2000, () => {
+          setQuestionNumber((previous) => previous + 1);
+          setSelectedAnswer(null);
+        });
+      } else {
+        wrongAns();
+        delay(2000, () => {
+          setStop(true);
+        });
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (questionNumber - 1 === data.length) {
+      setStop(true);
+    }
+    setQuestion(data[questionNumber - 1]);
+  }, [data, questionNumber, setStop]);
+  return (
+    <div className="quiz">
+      <div className="question">{question?.question}</div>
+      <div className="answers">
+        {question?.answers.map((answer, index) => {
+          return (
+            <div
+              key={index}
+              className={selectedAnswer === answer ? ansClassName : "answer"}
+              onClick={() => handleAnswer(answer)}
+            >
+              <span className="option">&#x2756; {answer.option}: </span>
+              {answer.text}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default Quiz;

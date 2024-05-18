@@ -1,115 +1,94 @@
-import { useState, useEffect } from 'react';
-import { MDBRow, MDBCol, MDBListGroup, MDBBtn } from 'mdb-react-ui-kit';
-import './App.css';
-import Quiz from './components/Quiz';
-import { data, prizeMoney } from './data';
-import Timer from './components/Timer';
-import Start from './components/Start';
+import { useEffect, useState } from "react";
+import "./App.css";
+import data from "./components/data";
 
-function App() {
-	const [name, setName] = useState(null);
-	const [questionNumber, setQuestionNumber] = useState(1);
-	const [timeOut, setTimeOut] = useState(false);
-	const [earned, setEarned] = useState('₹ 0');
+import audiencePoll from '../src/assets/audience_poll.png'
+import fiftyFifty from '../src/assets/fifty_fifty.png'
+import flipQuestion from '../src/assets/flip_the_question.png'
+import askExpert from '../src/assets/ask_the_expert.png'
+import Quiz from "./components/Quiz";
+import Timer from "./components/Timer";
+import Play from "./components/Play";
 
-	useEffect(() => {
-		if (questionNumber > 1) {
-			const previousQuestionAmount = prizeMoney.find(
-				item => item.id === questionNumber - 1
-			).amount;
-			setEarned(previousQuestionAmount);
-		}
-	}, [questionNumber]);
 
-	return (
-		<div className="App">
-			{!name ? (
-				<Start setName={setName} setTimeOut={setTimeOut} />
-			) : (
-				<MDBRow>
-					<MDBCol md="9">
-						<div className="main">
-							{timeOut ? (
-								<h1 className="earned">
-									You Earned Total: {earned}
-								</h1>
-							) : (
-								<>
-									<div
-										style={{
-											height: '50%',
-											position: 'relative'
-										}}
-									>
-										<div className="timer">
-											<Timer
-												setTimeOut={setTimeOut}
-												questionNumber={questionNumber}
-											/>
-										</div>
-									</div>
-									<div style={{ height: '50%' }}>
-										<Quiz
-											data={data}
-											questionNumber={questionNumber}
-											setQuestionNumber={
-												setQuestionNumber
-											}
-											setTimeOut={setTimeOut}
-										/>
-									</div>
-								</>
-							)}
-						</div>
-					</MDBCol>
-					<MDBCol md="3" className="money">
-						<MDBListGroup className="money-list">
-							<MDBRow>
-								<span className="mb-2">
-									<MDBBtn
-										style={{ float: 'right' }}
-										className="mx-2"
-										color="light"
-										onClick={() => setTimeOut(true)}
-									>
-										Quit
-									</MDBBtn>
-									<MDBBtn
-										style={{ float: 'right' }}
-										onClick={() => {
-											setName(null);
-											setQuestionNumber(1);
-											setEarned('₹ 0');
-										}}
-									>
-										Exit
-									</MDBBtn>
-								</span>
-								<MDBCol md="6">Name: {name}</MDBCol>
-								<MDBCol md="6">Total Earned: {earned}</MDBCol>
-							</MDBRow>
-							<hr />
-							{prizeMoney.map(item => (
-								<>
-									<li
-										className={
-											questionNumber === item.id
-												? 'item active'
-												: 'item'
-										}
-									>
-										<h5 className="amount">
-											{item.amount}
-										</h5>
-									</li>
-								</>
-							))}
-						</MDBListGroup>
-					</MDBCol>
-				</MDBRow>
-			)}
-		</div>
-	);
-}
+
+const App = () => {
+  const [username, setUsername] = useState(null)
+  const [questionNumber, setQuestionNumber] = useState(1)
+  const [stop, setStop] = useState(false)
+  const [earned, setEarned] = useState("0")
+
+  const moneyList = [
+    { id: 1, amount: "1,000" },
+    { id: 2, amount: "2,000" },
+    { id: 3, amount: "3,000" },
+    { id: 4, amount: "5,000" },
+    { id: 5, amount: "10,000" },
+    { id: 6, amount: "20,000" },
+    { id: 7, amount: "40,000" },
+    { id: 8, amount: "80,000" },
+    { id: 9, amount: "1,60,000" },
+    { id: 10, amount: "3,20,000" },
+    { id: 11, amount: "6,40,000" },
+    { id: 12, amount: "12,50,000" },
+    { id: 13, amount: "25,00,000" },
+    { id: 14, amount: "50,00,000" },
+    { id: 15, amount: "1 Crore" },
+    { id: 16, amount: "7 Crores" },
+  ].reverse();
+  
+  useEffect(()=>{
+    questionNumber > 1 && setEarned(moneyList.find((money)=>money.id === questionNumber - 1).amount)
+  }, [moneyList, questionNumber])
+  return (
+    <div className="app_container">
+      
+      {
+        username ? <><div className="main">
+      {
+        stop ? questionNumber - 1 === data.length ? (<div className="winner"> <div>🏆Congratulations!</div>You earned: <span className="earned_money">&#8377; {earned}</span></div>) :  (<div className="earned">You earned: &#8377; {earned}</div>) : (<> <div className="top">
+          <Timer setStop={setStop} questionNumber={questionNumber}  />
+        </div>
+        <div className="bottom">
+         <Quiz data={data} earned={earned}  setStop={setStop} questionNumber={questionNumber} setQuestionNumber={setQuestionNumber} />
+        </div></>)
+      }
+       
+      </div>
+      <div className="price_list">
+        <div className="lifelines">
+          <div className="lifeline">
+            <img src={audiencePoll} alt="Audience Poll"/>
+          </div>
+          <div className="lifeline">
+            <img src={fiftyFifty} alt="Fifty Fifty"/>
+          </div>
+          <div className="lifeline">
+            <img src={flipQuestion} alt="Flip Question"/>
+          </div>
+          <div className="lifeline">
+            <img src={askExpert} alt="Ask the Expert"/>
+          </div>
+        </div>
+        
+        
+        <ul className="moneyList">
+          {moneyList.map(({id, amount}) => {
+            return (
+              <><li key={id} className={questionNumber === id ? "moneyListItem active" : "moneyListItem"}>
+                <span className="moneyListItemNumber">{id}</span>
+                <span className="moneyListItemAmount">{amount}</span>
+              </li></>
+              
+            );
+          })}
+        </ul>
+      </div>
+    </> : <Play setUsername={setUsername} />
+      }
+
+      </div>
+  );
+};
 
 export default App;
