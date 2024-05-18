@@ -27,7 +27,7 @@ const data = [
 	},
 	{
 	  id: 2,
-	  question: "In which of these two sports is the term ‘free hit’ used?",
+	  question: "In which of these two sports is the term 'free hit' used?",
 	  answers: [
 		{
 		  option: "A",
