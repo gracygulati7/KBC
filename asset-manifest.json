@@ -1,20 +1,19 @@
 {
   "files": {
-    "main.css": "/KBC/static/css/main.a2269d9d.css",
-    "main.js": "/KBC/static/js/main.7e1efa60.js",
+    "main.css": "/KBC/static/css/main.f4b0ec47.css",
+    "main.js": "/KBC/static/js/main.13e62c9f.js",
     "static/js/885.6134a48c.chunk.js": "/KBC/static/js/885.6134a48c.chunk.js",
-    "static/js/453.5f6de15c.chunk.js": "/KBC/static/js/453.5f6de15c.chunk.js",
     "static/media/play.mp3": "/KBC/static/media/play.8e5f6d1d81d4e1414b95.mp3",
     "static/media/correct.mp3": "/KBC/static/media/correct.160572d72c858155072e.mp3",
     "static/media/wrong.mp3": "/KBC/static/media/wrong.e946821894ae9b0a0d6f.mp3",
+    "static/media/fifty_fifty.png": "/KBC/static/media/fifty_fifty.f4fade105a6ef65de887.png",
     "index.html": "/KBC/index.html",
-    "main.a2269d9d.css.map": "/KBC/static/css/main.a2269d9d.css.map",
-    "main.7e1efa60.js.map": "/KBC/static/js/main.7e1efa60.js.map",
-    "885.6134a48c.chunk.js.map": "/KBC/static/js/885.6134a48c.chunk.js.map",
-    "453.5f6de15c.chunk.js.map": "/KBC/static/js/453.5f6de15c.chunk.js.map"
+    "main.f4b0ec47.css.map": "/KBC/static/css/main.f4b0ec47.css.map",
+    "main.13e62c9f.js.map": "/KBC/static/js/main.13e62c9f.js.map",
+    "885.6134a48c.chunk.js.map": "/KBC/static/js/885.6134a48c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a2269d9d.css",
-    "static/js/main.7e1efa60.js"
+    "static/css/main.f4b0ec47.css",
+    "static/js/main.13e62c9f.js"
   ]
 }
