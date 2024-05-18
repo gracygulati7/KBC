@@ -18,9 +18,9 @@ body {
 
 .main {
   width: 75%;
-  background: url("https://images.news18.com/ibnlive/uploads/2021/08/whatsapp-image-2021-08-24-at-08.55.58-e1629793241775.jpeg") 
-  center no-repeat;
+  background: url("https://images.news18.com/ibnlive/uploads/2021/08/whatsapp-image-2021-08-24-at-08.55.58-e1629793241775.jpeg") center;
   background-size: cover;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
 }
